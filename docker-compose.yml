@@ -1,0 +1,24 @@
+version: '3'
+services:
+    nginx:
+        build:
+            context: ./docker/development/nginx
+            dockerfile: Dockerfile
+        volumes:
+            - ./:/app
+        ports:
+            - "80:80"
+    php-fpm:
+        build:
+            context: ./docker/development/php
+            dockerfile: php-fpm/Dockerfile
+        volumes:
+            - ./:/app
+    mysql:
+        image: mysql
+        ports:
+            - "3306:3306"
+        command: ["mysqld", "--default-authentication-plugin=mysql_native_password"]
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: root
